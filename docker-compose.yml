@@ -1,10 +1,14 @@
 version: '3.8'
 services:
-  front:
-    build: ./public
+  mongo:
+    image: mongo
+    container_name: my-mongo
     ports:
-      - 3000:3000
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
   api:
     build: ./server
     ports:
-      - 5000:5000
+      - 5080:5080
