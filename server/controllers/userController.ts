@@ -1,7 +1,10 @@
 import User from "../models/userModel.ts";
 import bcrypt from "bcrypt";
+import _express, { Request, Response, next } from "npm:express@^4.17";
+import { getValue, setValue } from "node-global-storage";
+import { onlineUserType } from "../types/user.ts";
 
-export const login = async (req, res, next) => {
+export const login = async (req: Request, res: Response, next: next) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
@@ -17,7 +20,7 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const register = async (req, res, next) => {
+export const register = async (req: Request, res: Response, next: next) => {
   try {
     const { username, email, password } = req.body;
     const usernameCheck = await User.findOne({ username });
@@ -39,7 +42,7 @@ export const register = async (req, res, next) => {
   }
 };
 
-export const getAllUsers = async (req, res, next) => {
+export const getAllUsers = async (req: Request, res: Response, next: next) => {
   try {
     const users = await User.find({ _id: { $ne: req.params.id } }).select([
       "email",
@@ -53,7 +56,7 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
-export const setAvatar = async (req, res, next) => {
+export const setAvatar = async (req: Request, res: Response, next: next) => {
   try {
     const userId = req.params.id;
     const avatarImage = req.body.image;
@@ -74,10 +77,16 @@ export const setAvatar = async (req, res, next) => {
   }
 };
 
-export const logOut = (req, res, next) => {
+export const logOut = async (req: Request, res: Response, next: next) => {
   try {
     if (!req.params.id) return res.json({ msg: "User id is required " });
-    onlineUsers.delete(req.params.id);
+
+    const onlineUsers = getValue<onlineUserType[]>("onlineUsers");
+    const updatedOnlineUsers = onlineUsers.filter(item => req.params.id !== item.userId)
+    
+    setValue<onlineUserType[]>('onlineUsers',updatedOnlineUsers);
+
+
     return res.status(200).send();
   } catch (ex) {
     next(ex);

@@ -18,5 +18,6 @@
   "flags": [
     "--unstable-detect-cjs"
   ],
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": "auto",
+  "compilerOptions": "./tsconfig.json"
 }
