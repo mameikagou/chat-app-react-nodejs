@@ -33,17 +33,17 @@ app.get("/ping", (_req: Request, res: Response) => {
   return res.json({ msg: "Ping Successful" });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/messages", messageRoutes);
-app.get("/users", async (_req: Request, res: Response) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    console.error("Error fetching users:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+// app.use("/api/auth", authRoutes);
+// app.use("/api/messages", messageRoutes);
+// app.get("/users", async (_req: Request, res: Response) => {
+//   try {
+//     const users = await User.find();
+//     res.json(users);
+//   } catch (err) {
+//     console.error("Error fetching users:", err);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 const server = app.listen(process.env.PORT, () =>
   console.log(`Server started on ${process.env.PORT}`)
