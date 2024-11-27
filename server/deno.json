@@ -19,5 +19,8 @@
     "--unstable-detect-cjs"
   ],
   "nodeModulesDir": "auto",
-  "compilerOptions": "./tsconfig.json"
+  "tsconfig": "./tsconfig.json",
+  "compilerOptions": {
+    "checkJs": true
+  }
 }
